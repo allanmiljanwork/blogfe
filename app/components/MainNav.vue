@@ -1,6 +1,9 @@
 <script setup>
+import { useAuthStore } from "~/store/auth";
+
 let route = useRoute();
-let items = computed(() => {
+let authStore = useAuthStore();
+let centerItems = computed(() => {
   return [
     {
       label: "Home",
@@ -21,13 +24,43 @@ let items = computed(() => {
     },
   ];
 });
+let rightItems = computed(() => {
+  let items = [];
+  if (authStore.user) {
+    items.push({
+      label: authStore.user.name,
+      children: [
+        {
+          label: "Logout",
+          async onSelect() {
+            await authStore.logout();
+          },
+        },
+      ],
+    });
+  } else {
+    items.push({
+      label: "Login",
+      to: "/login",
+      active: route.path.startsWith("/login"),
+    });
+    items.push({
+      label: "Register",
+      to: "/register",
+      active: route.path.startsWith("/register"),
+    });
+  }
+
+  return items;
+});
 </script>
 <template>
   <UHeader title="Blog">
     <template #right>
+      <UNavigationMenu :items="rightItems" class="w-full justify-end" />
       <UColorModeButton />
     </template>
 
-    <UNavigationMenu :items="items" />
+    <UNavigationMenu :items="centerItems" class="w-full" />
   </UHeader>
 </template>

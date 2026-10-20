@@ -1,14 +1,43 @@
 <script setup>
-import axios from "axios";
-axios.defaults.withXSRFToken = true;
-axios.defaults.withCredentials = true;
-let res = await axios.get("http://localhost:8000/sanctum/csrf-cookie");
-console.log(res);
-res = await axios.post("http://localhost:8000/api/login", {
-  email: "allan@gmail.com",
-  password: "password",
+import { useAuthStore } from "~/store/auth";
+
+const authStore = useAuthStore();
+authStore.clearErrors();
+const router = useRouter();
+let formData = ref({
+  email: "",
+  password: "",
 });
-res = await axios.get("http://localhost:8000/api/user");
-console.log(res);
+async function login() {
+  await authStore.login(formData.value);
+  if (!authStore.errors) {
+    router.push("/");
+  }
+}
 </script>
-<template></template>
+
+<template>
+  <UPageCard class="mt-3" title="Login">
+    <UFormField
+      label="Email"
+      :error="authStore.errors?.email?.find(() => true)"
+    >
+      <UInput
+        type="email"
+        v-model="formData.email"
+        class="w-full"
+        placeholder="Email"
+      />
+    </UFormField>
+    <UFormField label="Password">
+      <UInput
+        type="password"
+        v-model="formData.password"
+        class="w-full"
+        placeholder="Password"
+        :error="authStore.errors?.password?.find(() => true)"
+      />
+    </UFormField>
+    <UButton block @click="login">Login</UButton>
+  </UPageCard>
+</template>
