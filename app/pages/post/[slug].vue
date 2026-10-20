@@ -1,11 +1,9 @@
 <script setup>
-import axios from "axios";
+import { usePostsStore } from "~/store/posts";
 let route = useRoute();
-let res = await axios.get(
-  "http://localhost:8000/api/post/" + route.params.slug,
-);
-let post = ref(res.data);
+let postsStore = usePostsStore();
+await postsStore.getPost(route.params.slug);
 </script>
 <template>
-  <PostCard :post="post"></PostCard>
+  <PostCard :post="postsStore.post"></PostCard>
 </template>
