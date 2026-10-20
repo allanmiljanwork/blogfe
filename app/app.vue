@@ -5,6 +5,8 @@
         <UColorModeButton />
       </template>
     </UHeader>
-    <NuxtPage></NuxtPage>
+    <UContainer>
+      <NuxtPage></NuxtPage>
+    </UContainer>
   </UApp>
 </template>
