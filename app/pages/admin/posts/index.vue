@@ -1,12 +1,15 @@
 <script setup>
 import { usePostsStore } from "~/store/posts";
-let router = useRouter();
-let route = useRoute();
-let postsStore = usePostsStore();
+
+const router = useRouter();
+const route = useRoute();
+const postsStore = usePostsStore();
+const UDropdownMenu = resolveComponent("UDropdownMenu");
+const UButton = resolveComponent("UButton");
 
 await postsStore.getPosts(route.query.page);
 
-let page = ref(parseInt(route.query.page ?? 1));
+const page = ref(parseInt(route.query.page ?? 1));
 
 async function to(page) {
   router.push({
@@ -17,11 +20,11 @@ async function to(page) {
   await postsStore.getPosts(page);
 }
 
-let columns = [
+const columns = [
   {
     accessorKey: "id",
     header: "#",
-    cell: (cell) => "#" + cell.getValue(),
+    cell: ({ row }) => "#" + row.getValue("id"),
   },
   {
     accessorKey: "title",
@@ -65,7 +68,6 @@ let columns = [
 ];
 
 function getRowItems(row) {
-  console.log(row);
   return [
     {
       label: "View",
@@ -85,17 +87,3 @@ function getRowItems(row) {
   ];
 }
 </script>
-
-<template>
-  <UButton class="my-2" to="/admin/posts/create">Create</UButton>
-  <UPagination
-    class="my-4 flex justify-center"
-    v-model:page="page"
-    @update:page="to"
-    show-edges
-    :sibling-count="2"
-    :itemsPerPage="postsStore.pagination.per_page"
-    :total="postsStore.pagination.total"
-  />
-  <UTable :data="postsStore.posts" :columns="columns" class="flex-1" />
-</template>
