@@ -10,7 +10,4 @@ defineProps(["post", "snippet"]);
     :to="'/post/' + post.slug"
   >
   </UBlogPost>
-
-  const props = defineProps(["post", "snippet"]); console.log("Post data:",
-  props.post);
 </template>

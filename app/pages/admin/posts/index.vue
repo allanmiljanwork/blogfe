@@ -64,22 +64,30 @@ let columns = [
   },
 ];
 
-function getRowItems() {
+function getRowItems(row) {
+  console.log(row);
   return [
     {
       label: "View",
+      to: `/admin/posts/${row.original.slug}/view`,
     },
     {
       label: "Edit",
+      to: `/admin/posts/${row.original.slug}/edit`,
     },
     {
       label: "Delete",
+      async onSelect() {
+        await postsStore.deletePost(row.original.slug);
+        await postsStore.getPosts(route.query.page);
+      },
     },
   ];
 }
 </script>
 
 <template>
+  <UButton class="my-2" to="/admin/posts/create">Create</UButton>
   <UPagination
     class="my-4 flex justify-center"
     v-model:page="page"
