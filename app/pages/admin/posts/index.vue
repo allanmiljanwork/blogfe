@@ -87,3 +87,9 @@ function getRowItems(row) {
   ];
 }
 </script>
+
+<template>
+  <div>
+    <UTable :data="postsStore.posts" :columns="columns" />
+  </div>
+</template>

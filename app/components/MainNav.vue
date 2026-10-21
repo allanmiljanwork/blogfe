@@ -12,7 +12,6 @@ let centerItems = computed(() => {
     },
     {
       label: "Admin",
-      //to: '/admin',
       active: route.path.startsWith("/admin"),
       children: [
         {
