@@ -16,7 +16,7 @@ async function create() {
 </script>
 
 <template>
-  <UPageCard class="mt-3" title="Tailwind CSS">
+  <UPageCard class="mt-3" title="Create post">
     <UFormField
       label="Title"
       :error="postsStore.errors?.title?.find(() => true)"

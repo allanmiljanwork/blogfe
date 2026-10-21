@@ -19,6 +19,11 @@ let centerItems = computed(() => {
           to: "/admin/posts",
           active: route.path.startsWith("/admin/posts"),
         },
+        {
+          label: "Tags",
+          to: "/admin/tags",
+          active: route.path.startsWith("/admin/tags"),
+        },
       ],
     },
   ];

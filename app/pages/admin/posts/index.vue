@@ -23,8 +23,8 @@ async function to(page) {
 const columns = [
   {
     accessorKey: "id",
-    header: "#",
-    cell: ({ row }) => "#" + row.getValue("id"),
+    header: "ID",
+    cell: ({ row }) => "" + row.getValue("id"),
   },
   {
     accessorKey: "title",
@@ -89,6 +89,14 @@ function getRowItems(row) {
 </script>
 
 <template>
+  <div class="flex justify-end">
+    <UButton
+      label="Create Post"
+      icon="i-lucide-plus"
+      to="/admin/posts/create"
+    />
+  </div>
+
   <div>
     <UTable :data="postsStore.posts" :columns="columns" />
   </div>
